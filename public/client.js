@@ -54,14 +54,15 @@ function renderEntries($content, entries) {
     let $a = $('<a>');
     $a.click(fetchEntry(entry));
     $a.attr('href', entry.src);
-    $a.attr('id', entry.type + "-" + entry.id);
     $a.text(entry.text);
     $div.append($a);
 
-    $div.append(" - ");
-    $div.append(
-      $('<span style="font-style: italic">')
-        .text(entry.jyutping));
+    if (entry.jyutping) {
+      $div.append(" - ");
+      $div.append(
+        $('<span style="font-style: italic">')
+          .text(entry.jyutping));
+    }
 
     $div.append(" - ");
     $div.append(trim(entry.meaning));

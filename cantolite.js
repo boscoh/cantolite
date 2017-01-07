@@ -118,29 +118,29 @@ function processWordHtml(url, html) {
     result.meaning += $(elem).text();
   });
 
-  let char;
+  let entry;
   $('.cantodictcharacterblock').contents().each(function(i, elem) {
     if (elem.name === 'span') {
       if (elem.attribs.class == "chinesemed") {
         let a = $(elem).find('a');
         let href = a.attr('href');
         let text = a.text();
-        char = undefined;
-        if (text.length == 1) {
-          char = {
-            type: 'char',
-            src: href,
-            text: a.text(),
-            meaning: ''
-          };
-          result.entries.push(char);
+        entry = {
+          type: 'char',
+          src: href,
+          text: a.text(),
+          meaning: ''
+        };
+        if (text.length > 1) {
+          entry.type = 'word'
         }
+        result.entries.push(entry);
       } else if (elem.attribs.class == "summary_jyutping") {
-        char.jyutping = $(elem).text();
+        entry.jyutping = $(elem).text();
       }
     } else if (elem.type === 'text') {
-      if (!_.isUndefined(char)) {
-        char.meaning += elem.data;
+      if (!_.isUndefined(entry)) {
+        entry.meaning += $(elem).text();
       }
     }
   });

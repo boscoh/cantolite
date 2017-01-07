@@ -7,7 +7,6 @@
 
 const path = require('path');
 const fs = require('fs');
-const request = require('request');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cantolite = require('./cantolite.js');
@@ -17,8 +16,8 @@ const cantolite = require('./cantolite.js');
  */
 
 let app = express();
-let indexHtmlText = fs.readFileSync('public/index.html').toString();
 
+let indexHtmlText = fs.readFileSync('public/index.html').toString();
 app.get('/', function (request, response) {
   response.send(indexHtmlText);
 });
