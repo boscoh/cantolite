@@ -1,4 +1,5 @@
 /**
+ * A chinese dictionary wrapper for cantodict.
  * Created by boscoh on 23/12/2016.
  */
 
