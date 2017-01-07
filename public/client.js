@@ -124,7 +124,7 @@ function renderWordData(data) {
   $content.html("");
   renderSingleEntry($content, data);
   $content.append($("<div>").addClass('divider'));
-  renderEntries($content, data.chars);
+  renderEntries($content, data.entries);
 }
 
 
@@ -133,7 +133,7 @@ function renderCharData(data) {
   $content.html("");
   renderSingleEntry($content, data);
   $content.append($("<div>").addClass('divider'));
-  renderEntries($content, data.words);
+  renderEntries($content, data.entries);
 }
 
 
