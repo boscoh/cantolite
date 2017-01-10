@@ -26,9 +26,6 @@ function splitAndTrimLines(s) {
 function loadingMessage(msg) {
   $.mobile.loading( 'show', {
     text: msg,
-    textVisible: true,
-    theme: 'c',
-    html: ""
   });
 }
 
@@ -181,6 +178,6 @@ $('#search-form').submit(submit);
 $( document ).bind( 'mobileinit', function(){
   $.mobile.loader.prototype.options.text = "loading";
   $.mobile.loader.prototype.options.textVisible = false;
-  $.mobile.loader.prototype.options.theme = "a";
+  $.mobile.loader.prototype.options.theme = "d";
   $.mobile.loader.prototype.options.html = "";
 });
