@@ -1,121 +1,156 @@
-<head>
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta
-		name="viewport"
-	    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
-	<style>
-		* {
-			box-sizing: border-box;
-		}
-		body, form, input {
-			margin: 0;
-			padding: 0px;
-			font-size: 18px;
-		}
-		body {
-			padding-top: 90px;
-		}
-		#container {
-			width: 100%;
-			height: 100%;
-		}
-		#header {
-			padding: 5px;
-			position: fixed;
-			right: 0;
-			left: 0;
-			z-index: 1030;
-			top: 0;
-			line-height: 1.5em;
-			width: 100%;
-			background-color: #EEE;
-			border-bottom: 1px solid #CCC;
-		}
-		table {
-			width: 100%;
-			border-collapse: collapse;
-		}
-		table td {
-			padding: 4px;
-			border: 1px solid #DDD;
-			vertical-align: center;
-		}
-		.table-left {
-			width: 50px;
-			font-style: italic;
-			text-align: right;
-		}
-		.small-label {
-      text-transform: uppercase; 
-      font-size: 0.7em;
-		}
-		.status {
-		  background: #FFFFE0;
-		}
-		#content {
-			flex: 1 1;
-			overflow: auto;
-			padding: 5px;
-		}
-		.divider {
-			height: 0.7em;
-		}
-		.big-text {
-			font-size: 3em;
-		}
-		.note {
-			font-style: italic;
-			padding-top: 0.7em;
-			font-size: 0.75em;
-			line-height: 1em;
-		}
-	</style>
+<head xmlns="http://www.w3.org/1999/html">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"/>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        /*body, form, input {*/
+            /*margin: 0;*/
+            /*padding: 0px;*/
+            /*font-size: 18px;*/
+        /*}*/
+
+        /*body {*/
+            /*padding-top: 90px;*/
+        /*}*/
+
+        /*#container {*/
+            /*width: 100%;*/
+            /*height: 100%;*/
+        /*}*/
+
+        /*#header {*/
+            /*padding: 5px;*/
+            /*position: fixed;*/
+            /*right: 0;*/
+            /*left: 0;*/
+            /*z-index: 1030;*/
+            /*top: 0;*/
+            /*line-height: 1.5em;*/
+            /*width: 100%;*/
+            /*background-color: #EEE;*/
+            /*border-bottom: 1px solid #CCC;*/
+        /*}*/
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        form {
+            margin: 0;
+        }
+
+        table td {
+            padding: 4px;
+            border: 1px solid #DDD;
+            vertical-align: center;
+        }
+
+        #content,
+        td {
+            line-height: 1.3em;
+        }
+        .table-left {
+            width: 50px;
+            font-style: italic;
+            text-align: right;
+        }
+
+        .small-label {
+            text-transform: uppercase;
+            font-size: 0.7em;
+        }
+
+        .status {
+            background: #FFFFE0;
+        }
+
+        /*#content {*/
+            /*flex: 1 1;*/
+            /*overflow: auto;*/
+            /*padding: 5px;*/
+        /*}*/
+        .divider {
+            height: 1em;
+        }
+        .big-text {
+            font-size: 3em;
+        }
+
+        .note {
+            /*font-style: italic;*/
+            font-weight: bold;
+            font-size: 0.85em;
+            line-height: 1.5em;
+        }
+    </style>
 </head>
 <body>
-	<div id="container">
-		<div id="header">
+    <div data-role="page" data-title="canto-dict" id="">
+        <div data-role="header"
+             data-position="fixed"
+             style="
+                padding: 10px 10px 0px 10px;">
+            <div class="note">
+                cantolite: sourced from
+                <a href="http://www.cantonese.sheik.co.uk/scripts/wordlist.htm">cantodict</a>
+                by <a href="http://boscoh.com">bosco ho</a>.
+            </div>
+            <form id="search-form">
+                <div style="">
+                    <input
+                        type="search"
+                        data-mini="true"
+                        id="search-text"
+                        value="dog"/>
+                </div>
+                <div style="">
+                    <fieldset data-role="controlgroup"
+                              data-type="horizontal">
+                        <label>
+                            <input type="radio"
+                                   data-mini="true"
+                                   name="search-type"
+                                   value="chinese">
+                            chinese
+                        </label>
+                        <label>
+                            <input type="radio"
+                                   data-mini="true"
+                                   name="search-type"
+                                   value="english"
+                                   checked>
+                            english
+                        </label>
+                        <label>
+                            <input type="radio"
+                                   data-mini="true"
+                                   name="search-type"
+                                   value="jyutping">
+                            jyutping
+                        </label>
+                    </fieldset>
+                </div>
+            </form>
+        </div>
 
-			<form id="search-form">
-				<span class="small-label">cantolite:</span>
-				<input 
-				  style="
-				    width: 180px; 
-				    height: 1.7em; 
-				    line-height: 1.7em; 
-				    padding: 2px; 
-				    margin: 0; 
-				    font-family: monospace" 
-			    id="search-text" 
-			    value="dog" 
-			    type="string"/>
-				<input style="padding: 0; margin: 0; font-size: 12px" type="submit" value="search"/>
-        <br>
-				<label>
-  				<input type="radio" name="search-type" value="chinese"> 
-  				chinese 
-				</label>
-				<label>
-	  			<input type="radio" name="search-type" value="english" checked> 
-	  			english
-				</label>
-				<label>
-  				<input type="radio" name="search-type" value="jyutping"> 
-  				jyutping
-				</label>
-				<br>
-				<div class="note">
-					cantonese dictionary, sourced from <a href="http://www.cantonese.sheik.co.uk/scripts/wordlist.htm">cantodict</a>
-					by <a href="http://boscoh.com">bosco ho</a>.
-				</div>
-			</form>
-		</div>
+        <div
+            data-role="main"
+            class="ui-content"
+            style="
+                padding: 10px;"
+            id="content">
+        </div>
 
-		<div id="content">
-		</div>
+    </div>
 
-	</div>
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-  <script src="/client.js"></script>
+<script src="/client.js"></script>
 
 </body>

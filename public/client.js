@@ -32,10 +32,19 @@ function addStatus(status) {
 }
 
 
+function loadingMessage(msg) {
+  $.mobile.loading( 'show', {
+    text: msg,
+    textVisible: true,
+    theme: 'z',
+    html: ""
+  });
+}
+
 function fetchEntry(entry) {
   return function (e) {
     e.preventDefault();
-    addStatus('Fetching entry...');
+    loadingMessage(entry.text);
     $.post('/entry', {src: entry.src }, processData, 'json');
   };
 }
@@ -141,6 +150,8 @@ function renderCharData(data) {
 function processData(data) {
   console.log('process data', data);
 
+  $.mobile.loading( 'hide');
+
   if (data.type === "search") {
     renderSearchData(data);
   } else if (data.type === "word") {
@@ -148,10 +159,11 @@ function processData(data) {
   } else if (data.type === "char") {
     renderCharData(data);
   } else {
-    addStatus('No entries found.');
+    $('#content').text('No entries found.');
   }
 
   let $content = $('#content');
+
   if (data.src) {
     $content.append("<br>");
     $content.append(
@@ -163,14 +175,22 @@ function processData(data) {
 
 function submit(e) {
   e.preventDefault();
+  let text = $("#search-text").val();
   let data = {
     type: $("input[name='search-type']:checked").val(),
-    text: $("#search-text").val()
+    text: text,
   };
-  addStatus('Searching...');
+  loadingMessage(text);
+  // addStatus('Searching...');
   $.post("/search", data, processData, 'json');
 }
 
 
 $('#search-form').submit(submit);
 
+$( document ).bind( 'mobileinit', function(){
+  $.mobile.loader.prototype.options.text = "loading";
+  $.mobile.loader.prototype.options.textVisible = false;
+  $.mobile.loader.prototype.options.theme = "a";
+  $.mobile.loader.prototype.options.html = "";
+});
