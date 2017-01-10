@@ -36,7 +36,7 @@ function loadingMessage(msg) {
   $.mobile.loading( 'show', {
     text: msg,
     textVisible: true,
-    theme: 'z',
+    theme: 'c',
     html: ""
   });
 }
