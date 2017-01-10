@@ -23,15 +23,6 @@ function splitAndTrimLines(s) {
 }
 
 
-function addStatus(status) {
-    $('#content')
-      .prepend(
-        $('<div class="status">')
-          .attr('style', 'font-style: italic')
-          .text(status));
-}
-
-
 function loadingMessage(msg) {
   $.mobile.loading( 'show', {
     text: msg,
@@ -124,7 +115,7 @@ function renderSearchData(data) {
   if (data.entries.length) {
     renderEntries($content, data.entries);
   } else {
-    addStatus('No entries found.');
+    $content.text('No entries found.');
   }
 }
 
@@ -181,7 +172,6 @@ function submit(e) {
     text: text,
   };
   loadingMessage(text);
-  // addStatus('Searching...');
   $.post("/search", data, processData, 'json');
 }
 
