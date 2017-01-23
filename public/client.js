@@ -2,7 +2,7 @@
 
 
 function trim(s) {
-  let result = $.trim(s);
+  let result = $.trim(s).replace(/\s\s+/g, ' ');
   while ((result.length > 0) &&
     ((result[0] === " ") || (result[0] === "=") || (result[0] === "-"))) {
     result = result.substring(1, result.length);
@@ -22,49 +22,47 @@ function splitAndTrimLines(s) {
   return lines;
 }
 
-
-function addStatus(status) {
-    $('#content')
-      .prepend(
-        $('<div class="status">')
-          .attr('style', 'font-style: italic')
-          .text(status));
+function loadingMessage(msg) {
+  $.mobile.loading( 'show', {
+    text: msg,
+    textVisible: true
+  });
 }
-
 
 function fetchEntry(entry) {
   return function (e) {
     e.preventDefault();
-    addStatus('Fetching entry...');
+    loadingMessage(entry.text);
     $.post('/entry', {src: entry.src }, processData, 'json');
   };
 }
 
 function renderEntries($content, entries) {
   $.each(entries, function (i, entry) {
-    let $div = $('<div>');
+    let $div = $('<div style="line-height: 1.2em">');
     $content.append($div);
-
-    $div.append(
-      $('<span class="small-label">')
-        .text(entry.type + ":"));
-        
-    $div.append(" ");
 
     let $a = $('<a>');
     $a.click(fetchEntry(entry));
     $a.attr('href', entry.src);
-    $a.attr('id', entry.type + "-" + entry.id);
+    $a.addClass("ui-input-btn ui-btn ui-btn-inline");
+    $a.attr('style', "float: left; margin: 0 10px 0 0;");
     $a.text(entry.text);
     $div.append($a);
 
-    $div.append(" - ");
-    $div.append(
-      $('<span style="font-style: italic">')
-        .text(entry.jyutping));
+    $div.append($('<div style="height: 0.5em;">'))
+    if (entry.jyutping) {
+      $div.append(" - ");
+      $div.append(
+        $('<span style="font-style: italic">')
+          .text(entry.jyutping));
+    }
 
     $div.append(" - ");
     $div.append(trim(entry.meaning));
+    $div.append("<br clear=all>");
+    
+    $div.append($('<div style="height: 0.4em;">'))
   });
 }
 
@@ -114,7 +112,7 @@ function renderSearchData(data) {
   if (data.entries.length) {
     renderEntries($content, data.entries);
   } else {
-    addStatus('No entries found.');
+    $content.text('No entries found.');
   }
 }
 
@@ -124,7 +122,7 @@ function renderWordData(data) {
   $content.html("");
   renderSingleEntry($content, data);
   $content.append($("<div>").addClass('divider'));
-  renderEntries($content, data.chars);
+  renderEntries($content, data.entries);
 }
 
 
@@ -133,12 +131,14 @@ function renderCharData(data) {
   $content.html("");
   renderSingleEntry($content, data);
   $content.append($("<div>").addClass('divider'));
-  renderEntries($content, data.words);
+  renderEntries($content, data.entries);
 }
 
 
 function processData(data) {
   console.log('process data', data);
+
+  $.mobile.loading( 'hide');
 
   if (data.type === "search") {
     renderSearchData(data);
@@ -147,29 +147,36 @@ function processData(data) {
   } else if (data.type === "char") {
     renderCharData(data);
   } else {
-    addStatus('No entries found.');
+    $('#content').text('No entries found.');
   }
 
   let $content = $('#content');
-  if (data.src) {
-    $content.append("<br>");
-    $content.append(
-      $("<a>").attr("href", data.src).text("[source page]"));
-  }
-  $content.append("<br>");
-}
 
+  $content.append("<br>");
+
+  if (data.src) {
+    $('#source-page').html(
+      $("<a>").attr("href", data.src).text("page"));
+  }
+}
 
 function submit(e) {
   e.preventDefault();
+  let text = $("#search-text").val();
   let data = {
     type: $("input[name='search-type']:checked").val(),
-    text: $("#search-text").val()
+    text: text,
   };
-  addStatus('Searching...');
+  loadingMessage(text);
   $.post("/search", data, processData, 'json');
 }
 
 
 $('#search-form').submit(submit);
 
+$( document ).bind( 'mobileinit', function(){
+  $.mobile.loader.prototype.options.text = "loading";
+  $.mobile.loader.prototype.options.textVisible = true;
+  $.mobile.loader.prototype.options.theme = "d";
+  $.mobile.loader.prototype.options.html = "";
+});
