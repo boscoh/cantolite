@@ -45,18 +45,12 @@ function renderEntries($content, entries) {
     let $a = $('<a>');
     $a.click(fetchEntry(entry));
     $a.attr('href', entry.src);
-<<<<<<< HEAD
     $a.addClass("ui-input-btn ui-btn ui-btn-inline");
     $a.attr('style', "float: left; margin: 0 10px 0 0;");
     $a.text(entry.text);
     $div.append($a);
 
     $div.append($('<div style="height: 0.5em;">'))
-=======
-    $a.text(entry.text);
-    $div.append($a);
-
->>>>>>> 7370a1943146ae314a53966ce41109c8dc91b69d
     if (entry.jyutping) {
       $div.append(" - ");
       $div.append(
@@ -158,11 +152,8 @@ function processData(data) {
 
   let $content = $('#content');
 
-<<<<<<< HEAD
   $content.append("<br>");
 
-=======
->>>>>>> 7370a1943146ae314a53966ce41109c8dc91b69d
   if (data.src) {
     $('#source-page').html(
       $("<a>").attr("href", data.src).text("page"));
